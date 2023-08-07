@@ -194,6 +194,21 @@ class _InvoiceListState extends State<InvoiceList> with RouteAware {
             IconButton(
                 onPressed: () async {
                   bool confirmDelete =
+                  await showDeleteConfirmationDialog(context);
+                  if (confirmDelete) {
+                    // Perform delete action
+                    deleteAll();
+                  } else {
+                    // Cancel delete action
+                  }
+                },
+                icon: Icon(
+                  Icons.delete_sharp,
+                  color: Colors.redAccent,
+                )),
+            IconButton(
+                onPressed: () async {
+                  bool confirmDelete =
                       await showSendConfirmationDialog(context);
                   if (confirmDelete) {
                     int current = 0;
@@ -274,21 +289,7 @@ class _InvoiceListState extends State<InvoiceList> with RouteAware {
                   }
                 },
                 icon: const Icon(Icons.send_sharp)),
-            IconButton(
-                onPressed: () async {
-                  bool confirmDelete =
-                      await showDeleteConfirmationDialog(context);
-                  if (confirmDelete) {
-                    // Perform delete action
-                    deleteAll();
-                  } else {
-                    // Cancel delete action
-                  }
-                },
-                icon: Icon(
-                  Icons.delete_sharp,
-                  color: Colors.redAccent,
-                )),
+
           ],
           leading: IconButton(
               onPressed: () async {

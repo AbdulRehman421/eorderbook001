@@ -542,15 +542,25 @@ class _MultiSelectCheckListScreenState
                                   controller: controller,
                                   decoration: const InputDecoration(
                                       hintText: 'Search',
+
                                       border: InputBorder.none),
                                   textInputAction: TextInputAction.search,
-                                  onSubmitted: (String query) {
-                                    currentPage = 1;
-                                    _searchResult.clear();
-                                    // items.clear();
-                                    setState(() {});
-                                    initial();
+                                  // onChanged: onSearchTextChanged,
+                                  onChanged: (value) {
+                                    if(value.length >= 3){
+                                      onSearchTextChanged(value);
+                                      setState(() {});
+                                        initial();
+                                    }
                                   },
+
+                                  // onSubmitted: (String query) {
+                                  //   currentPage = 1;
+                                  //   _searchResult.clear();
+                                  //   // items.clear();
+                                  //   setState(() {});
+                                  //   initial();
+                                  // },
                                   // onChanged: (String query) {
                                   //   currentPage = 1;
                                   //   _searchResult.clear();
@@ -559,6 +569,7 @@ class _MultiSelectCheckListScreenState
                                   //   initial();
                                   // }, // onChanged: onSearchTextChanged,
                                 ),
+
                                 trailing: SizedBox(
                                   width: 40,
                                   child: InkWell(
@@ -590,6 +601,62 @@ class _MultiSelectCheckListScreenState
                                     },
                                   ),
                                 ),
+                                // trailing: SizedBox(
+                                //   width: 80,
+                                //   child: Row(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.center,
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceEvenly,
+                                //     children: [
+                                //       InkWell(
+                                //         child: const Icon(
+                                //           Icons.cancel,
+                                //           size: 28,
+                                //         ),
+                                //         // onTap: () {
+                                //         //   controller.text = "";
+                                //         //   // onSearchTextChanged('');
+                                //         //   currentPage = 1;
+                                //         //   _searchResult.clear();
+                                //         //   items.clear();
+                                //         //   initial();
+                                //         //   FocusManager.instance.primaryFocus
+                                //         //       ?.unfocus();
+                                //         // },
+                                //         onTap: () {
+                                //
+                                //           // _searchResult.clear();
+                                //           // controller.text = "";
+                                //           // FocusManager.instance.toStringDeep();
+                                //
+                                //           controller.clear();
+                                //           onSearchTextChanged('');
+                                //           // FocusManager.instance.primaryFocus;
+                                //           FocusManager.instance.primaryFocus?.hasPrimaryFocus;
+                                //
+                                //         },
+                                //       ),
+                                //       Visibility(
+                                //         visible: true,
+                                //         child: InkWell(
+                                //           child: const Icon(
+                                //             Icons.search,
+                                //             size: 28,
+                                //           ),
+                                //           onTap: () {
+                                //             // onSearchTextChanged(controller.text);
+                                //             currentPage = 1;
+                                //             _searchResult.clear();
+                                //             // items.clear();
+                                //             setState(() {});
+                                //             initial();
+                                //           },
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
                               ),
                             ),
                             Visibility(
@@ -1964,6 +2031,7 @@ class _MultiSelectCheckListScreenState
                         keyboardType: TextInputType.number,
                         autofocus: true,
                         maxLines: 1,
+                        onTap: () => priceC.selection = TextSelection(baseOffset: 0, extentOffset: priceC.value.text.length),
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                           contentPadding:
@@ -1992,6 +2060,7 @@ class _MultiSelectCheckListScreenState
                         controller: discountC,
                         keyboardType: TextInputType.number,
                         autofocus: true,
+                        onTap: () => discountC.selection = TextSelection(baseOffset: 0, extentOffset: discountC.value.text.length),
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
@@ -2025,6 +2094,7 @@ class _MultiSelectCheckListScreenState
                             controller: bonusController,
                             keyboardType: TextInputType.number,
                             autofocus: true,
+                            onTap: () => bonusController.selection = TextSelection(baseOffset: 0, extentOffset: bonusController.value.text.length),
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             decoration: const InputDecoration(

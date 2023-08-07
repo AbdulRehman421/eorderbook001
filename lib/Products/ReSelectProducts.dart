@@ -552,13 +552,14 @@ class _MultiSelectCheckListScreenState
                                       hintText: 'Search',
                                       border: InputBorder.none),
                                   textInputAction: TextInputAction.search,
-                                  onSubmitted: (String query) {
-                                    currentPage = 1;
-                                    _searchResult.clear();
-                                    // items.clear();
-                                    setState(() {});
-                                    initial();
-                                  }, // onChanged: onSearchTextChanged,
+                                  onChanged: (value) {
+                                    if(value.length >= 3){
+                                      onSearchTextChanged(value);
+                                      setState(() {});
+                                      initial();
+
+                                    }
+                                  },// onChanged: onSearchTextChanged,
                                 ),
                                 trailing: SizedBox(
                                   width: 40,
@@ -1817,6 +1818,7 @@ class _MultiSelectCheckListScreenState
                         controller: priceC,
                         keyboardType: TextInputType.number,
                         autofocus: true,
+                        onTap: () => priceC.selection = TextSelection(baseOffset: 0, extentOffset: priceC.value.text.length),
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
@@ -1846,6 +1848,7 @@ class _MultiSelectCheckListScreenState
                         controller: discountC,
                         keyboardType: TextInputType.number,
                         autofocus: true,
+                        onTap: () => discountC.selection = TextSelection(baseOffset: 0, extentOffset: discountC.value.text.length),
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
@@ -1879,6 +1882,7 @@ class _MultiSelectCheckListScreenState
                             controller: bonusController,
                             keyboardType: TextInputType.number,
                             autofocus: true,
+                            onTap: () => bonusController.selection = TextSelection(baseOffset: 0, extentOffset: bonusController.value.text.length),
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             decoration: const InputDecoration(

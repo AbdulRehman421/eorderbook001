@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 
+import '../Firebase/firebase_options.dart';
 import '../Invoices/InvoicesList.dart';
 import '../Utils/db.dart';
+import '../models/settings.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -116,6 +118,11 @@ class _LoginViewState extends State<LoginView> {
                   await viewModel.sync(context);
                   getData();
                 }, icon: Icon(Icons.sync)),
+                actions: [
+                  IconButton(onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ApiSettings(),));
+                  }, icon: Icon(Icons.settings))
+                ],
               ),
               body: Center(
                 child: ListView(

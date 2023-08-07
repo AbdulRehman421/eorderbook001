@@ -207,13 +207,13 @@ class _SelectCustomerState extends State<SelectCustomer> {
                                           hintText: 'Search',
                                           border: InputBorder.none),
                                       textInputAction: TextInputAction.search,
-                                      onSubmitted: (String query) {
-                                        currentPage = 1;
-                                        _searchResult.clear();
-                                        setState(() {});
-                                        initial();
-                                      }
-                                      // onChanged: onSearchTextChanged,
+                                      // onSubmitted: (String query) {
+                                      //   currentPage = 1;
+                                      //   _searchResult.clear();
+                                      //   setState(() {});
+                                      //   initial();
+                                      // }
+                                      onChanged: onSearchTextChanged,
                                       ),
                                   trailing: SizedBox(
                                     width: 80,
@@ -229,15 +229,18 @@ class _SelectCustomerState extends State<SelectCustomer> {
                                             size: 28,
                                           ),
                                           onTap: () {
-                                            controller.text = "";
-                                            // onSearchTextChanged('');
-                                            currentPage = 1;
-                                            _searchResult.clear();
-                                            items.clear();
-                                            setState(() {});
-                                            initial();
-                                            FocusManager.instance.primaryFocus
-                                                ?.unfocus();
+                                            controller.clear();
+                                            onSearchTextChanged('');
+                                            FocusManager.instance.primaryFocus?.unfocus();
+                                            // controller.text = "";
+                                            // // onSearchTextChanged('');
+                                            // currentPage = 1;
+                                            // _searchResult.clear();
+                                            // items.clear();
+                                            // setState(() {});
+                                            // initial();
+                                            // FocusManager.instance.primaryFocus
+                                            //     ?.unfocus();
                                           },
                                         ),
                                         InkWell(
