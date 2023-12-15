@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:Mini_Bill/Area%20&%20Sector/Sector.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -369,51 +368,3 @@ Future<void> insertArea(List<Area> users, database) async {
   db.close();
 }
 
-void saveCustomer(String boxName, List<Map<String, dynamic>> customers) async {
-  if (!Hive.isAdapterRegistered(2)) {
-    Hive.registerAdapter(CustomerAdapter());
-  }
-  var box = await Hive.openBox<Customer>(boxName);
-  for (var customer in customers) {
-    if (box.containsKey(customer['_id'])) {
-      box.delete(customer['_id']);
-    }
-    box.put(
-        customer['_id'],
-        Customer(
-            customer['dsc'],
-            "${customer['Address']}",
-            "${customer['Phone']}",
-            "",
-            "${customer['_id']}",
-            "${customer['AreaCd']}"));
-  }
-}
-
-void openHiveBox(String boxName, List<Map<String, dynamic>> products) async {
-  if (!Hive.isAdapterRegistered(1)) {
-    Hive.registerAdapter(ProductAdapter());
-  }
-  var box = await Hive.openBox<Product>(boxName);
-  for (var product in products) {
-    if (kDebugMode) {
-      print(product['balance']);
-    }
-    if (box.containsKey(product['_id'])) {
-      box.delete(product['_id']);
-    }
-    box.put(
-        product['_id'],
-        Product(
-            product['pcode'] ?? "",
-            product['name1'],
-            double.parse("${product['rate']}"),
-            1,
-            0,
-            "${product['_id']}",
-            int.parse("${product['balance']}")));
-  }
-  /*SharedPreferences prefs = await SharedPreferences.getInstance();
-  final dbAdded = prefs.setBool("DB_ADDED",true);
-  prefs.commit();*/
-}

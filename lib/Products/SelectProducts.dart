@@ -249,7 +249,7 @@ class _MultiSelectCheckListScreenState
   }
 
   double totalPrice = 0;
-  bool showSelected = false;
+  bool showSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -685,221 +685,150 @@ class _MultiSelectCheckListScreenState
                                 ],
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "All",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                            // const Padding(
+                            //   padding: EdgeInsets.all(8.0),
+                            //   child: Text(
+                            //     "All",
+                            //     style: TextStyle(
+                            //         fontSize: 18, fontWeight: FontWeight.bold),
+                            //   ),
+                            // ),
                             _searchResult.isNotEmpty ||
                                     controller.text.isNotEmpty
-                                ? ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () async {
-                                          if (!_searchResult[index].selected) {
-                                            showEditProductDialog(context,
-                                                _searchResult[index], index);
-                                          }
-                                        },
-                                        child: Card(
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 6),
-                                          child: ListTile(
-                                            // contentPadding: const EdgeInsets.all(12),
-                                            selected:
-                                                _searchResult[index].selected,
-                                            selectedTileColor: Colors.blue,
-                                            selectedColor: Colors.white,
-                                            title: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Visibility(
-                                                  visible: false,
-                                                  child: Row(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        maxRadius: 16,
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        child: GestureDetector(
-                                                          onTap: () async {
-                                                            setState(() {
-                                                              editing = true;
-                                                              visibility =
-                                                                  false;
-                                                              editingId =
-                                                                  _searchResult[
-                                                                          index]
-                                                                      .id;
-                                                            });
-                                                            priceC.text =
-                                                                "${_searchResult[index].price}";
-                                                            productNameC.text =
-                                                                _searchResult[
-                                                                        index]
-                                                                    .productName;
-                                                            skuC.text =
-                                                                _searchResult[
-                                                                        index]
-                                                                    .sku;
-                                                          },
-                                                          child: const Icon(
-                                                            Icons.edit,
-                                                            size: 18,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      CircleAvatar(
-                                                        maxRadius: 16,
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        child: GestureDetector(
-                                                          onTap: () async {
-                                                            AlertDialog alert =
-                                                                AlertDialog(
-                                                              title: const Text(
-                                                                  'Are you sure?'),
-                                                              content: const Text(
-                                                                  'By clicking this button, this product will be deleted'),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  child:
-                                                                      const Text(
-                                                                          'Yes'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                    deleteSearchProduct(
-                                                                        index);
-                                                                  },
-                                                                ),
-                                                                TextButton(
-                                                                  child: const Text(
-                                                                      'Cancel'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            );
-                                                            showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContextcontext) {
-                                                                return alert;
-                                                              },
-                                                            );
-                                                          },
-                                                          child: const Icon(
-                                                            Icons.delete,
-                                                            size: 18,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Visibility(
-                                                        visible: false,
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      12.0,
-                                                                  vertical: 2),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: [
-                                                              Text(
-                                                                "Qty: ${_searchResult[index].quantity}",
-                                                                style: const TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                              _searchResult[index]
-                                                                          .discount !=
-                                                                      0
-                                                                  ? const VerticalDivider()
-                                                                  : const SizedBox(),
-                                                              _searchResult[index]
-                                                                          .discount !=
-                                                                      0
-                                                                  ? Text(
-                                                                      "Dis: ${_searchResult[index].discount}",
-                                                                      style: const TextStyle(
-                                                                          color:
-                                                                              Colors.white),
-                                                                    )
-                                                                  : const SizedBox(),
-                                                            ],
-                                                          ),
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            3)),
-                                                            color: Colors.amber,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Row(
+                                ? Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "All",
+                                        style: TextStyle(
+                                            fontSize: 18, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    ListView.builder(
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () async {
+                                              if (!_searchResult[index].selected) {
+                                                showEditProductDialog(context,
+                                                    _searchResult[index], index);
+                                              }
+                                            },
+                                            child: Card(
+                                              margin: const EdgeInsets.symmetric(
+                                                  vertical: 3, horizontal: 6),
+                                              child: ListTile(
+                                                // contentPadding: const EdgeInsets.all(12),
+                                                selected:
+                                                    _searchResult[index].selected,
+                                                selectedTileColor: Colors.blue,
+                                                selectedColor: Colors.white,
+                                                title: Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Visibility(
+                                                      visible: false,
+                                                      child: Row(
                                                         children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              _searchResult[
-                                                                          index]
-                                                                      .productName +
-                                                                  "        " +
-                                                                  _searchResult[
-                                                                          index]
-                                                                      .sku +
-                                                                  '(${_searchResult[index].balance})',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                          CircleAvatar(
+                                                            maxRadius: 16,
+                                                            backgroundColor:
+                                                                Colors.blue,
+                                                            child: GestureDetector(
+                                                              onTap: () async {
+                                                                setState(() {
+                                                                  editing = true;
+                                                                  visibility =
+                                                                      false;
+                                                                  editingId =
+                                                                      _searchResult[
+                                                                              index]
+                                                                          .id;
+                                                                });
+                                                                priceC.text =
+                                                                    "${_searchResult[index].price}";
+                                                                productNameC.text =
+                                                                    _searchResult[
+                                                                            index]
+                                                                        .productName;
+                                                                skuC.text =
+                                                                    _searchResult[
+                                                                            index]
+                                                                        .sku;
+                                                              },
+                                                              child: const Icon(
+                                                                Icons.edit,
+                                                                size: 18,
+                                                                color: Colors.white,
+                                                              ),
                                                             ),
                                                           ),
-                                                          // SizedBox(
-                                                          //   width: 6,
-                                                          // ),
-                                                          // Text("Balance: ${_searchResult[index].balance}"),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          CircleAvatar(
+                                                            maxRadius: 16,
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            child: GestureDetector(
+                                                              onTap: () async {
+                                                                AlertDialog alert =
+                                                                    AlertDialog(
+                                                                  title: const Text(
+                                                                      'Are you sure?'),
+                                                                  content: const Text(
+                                                                      'By clicking this button, this product will be deleted'),
+                                                                  actions: <Widget>[
+                                                                    TextButton(
+                                                                      child:
+                                                                          const Text(
+                                                                              'Yes'),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(
+                                                                                context)
+                                                                            .pop();
+                                                                        deleteSearchProduct(
+                                                                            index);
+                                                                      },
+                                                                    ),
+                                                                    TextButton(
+                                                                      child: const Text(
+                                                                          'Cancel'),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(
+                                                                                context)
+                                                                            .pop();
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                                showDialog(
+                                                                  context: context,
+                                                                  builder:
+                                                                      (BuildContextcontext) {
+                                                                    return alert;
+                                                                  },
+                                                                );
+                                                              },
+                                                              child: const Icon(
+                                                                Icons.delete,
+                                                                size: 18,
+                                                                color: Colors.white,
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
-                                                      Row(
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    Expanded(
+                                                      child: Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceBetween,
@@ -907,154 +836,209 @@ class _MultiSelectCheckListScreenState
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                'Price:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
+                                                          Visibility(
+                                                            visible: false,
+                                                            child: Container(
+                                                              padding:
+                                                                  const EdgeInsets
                                                                           .symmetric(
                                                                       horizontal:
                                                                           12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${_searchResult[index].price}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            13),
+                                                                      vertical: 2),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Text(
+                                                                    "Qty: ${_searchResult[index].quantity}",
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
                                                                   ),
-                                                                ),
+                                                                  _searchResult[index]
+                                                                              .discount !=
+                                                                          0
+                                                                      ? const VerticalDivider()
+                                                                      : const SizedBox(),
+                                                                  _searchResult[index]
+                                                                              .discount !=
+                                                                          0
+                                                                      ? Text(
+                                                                          "Dis: ${_searchResult[index].discount}",
+                                                                          style: const TextStyle(
+                                                                              color:
+                                                                                  Colors.white),
+                                                                        )
+                                                                      : const SizedBox(),
+                                                                ],
                                                               ),
-                                                            ],
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .all(Radius
+                                                                            .circular(
+                                                                                3)),
+                                                                color: Colors.amber,
+                                                              ),
+                                                            ),
                                                           ),
                                                           Row(
                                                             children: [
-                                                              const Text(
-                                                                'Disc:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${_searchResult[index].discount}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            13),
-                                                                  ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  _searchResult[
+                                                                              index]
+                                                                          .productName +
+                                                                      "        " +
+                                                                      _searchResult[
+                                                                              index]
+                                                                          .sku +
+                                                                      '(${_searchResult[index].balance})',
+                                                                  style: TextStyle(
+                                                                      fontSize: 13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
                                                                 ),
                                                               ),
+                                                              // SizedBox(
+                                                              //   width: 6,
+                                                              // ),
+                                                              // Text("Balance: ${_searchResult[index].balance}"),
                                                             ],
                                                           ),
                                                           Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
-                                                              const Text(
-                                                                'Bns:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${_searchResult[index].bonus}',
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Price:',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             13),
                                                                   ),
-                                                                ),
+                                                                  Container(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              12.0,
+                                                                          vertical:
+                                                                              4),
+                                                                      child: Text(
+                                                                        '${_searchResult[index].price}',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                13),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                'Qty:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${_searchResult[index].quantity}',
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Disc:',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             13),
                                                                   ),
-                                                                ),
+                                                                  Container(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              12.0,
+                                                                          vertical:
+                                                                              4),
+                                                                      child: Text(
+                                                                        '${_searchResult[index].discount}',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                13),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Bns:',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            13),
+                                                                  ),
+                                                                  Container(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              12.0,
+                                                                          vertical:
+                                                                              4),
+                                                                      child: Text(
+                                                                        '${_searchResult[index].bonus}',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                13),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Qty:',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            13),
+                                                                  ),
+                                                                  Container(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              12.0,
+                                                                          vertical:
+                                                                              4),
+                                                                      child: Text(
+                                                                        '${_searchResult[index].quantity}',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                13),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ],
                                                           ),
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Column(
-                                                  children: [
-                                                    const SizedBox(
-                                                      height: 6,
                                                     ),
-                                                    Visibility(
-                                                      visible: false,
-                                                      child: CircleAvatar(
-                                                        maxRadius: 16,
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        child: GestureDetector(
-                                                          onTap: () async {
-                                                            showEditProductDialog(
-                                                                context,
-                                                                _searchResult[
-                                                                    index],
-                                                                index);
-                                                          },
-                                                          child: const Icon(
-                                                            Icons.tune,
-                                                            size: 18,
-                                                            color: Colors.white,
-                                                          ),
+                                                    const SizedBox(width: 10),
+                                                    Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                          height: 6,
                                                         ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 6,
-                                                    ),
-                                                    !_searchResult[index]
-                                                            .selected
-                                                        ? CircleAvatar(
+                                                        Visibility(
+                                                          visible: false,
+                                                          child: CircleAvatar(
                                                             maxRadius: 16,
                                                             backgroundColor:
-                                                                Colors.white,
-                                                            child:
-                                                                GestureDetector(
+                                                                Colors.blue,
+                                                            child: GestureDetector(
                                                               onTap: () async {
                                                                 showEditProductDialog(
                                                                     context,
@@ -1063,460 +1047,490 @@ class _MultiSelectCheckListScreenState
                                                                     index);
                                                               },
                                                               child: const Icon(
-                                                                Icons.add,
+                                                                Icons.tune,
                                                                 size: 18,
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Colors.white,
                                                               ),
                                                             ),
-                                                          )
-                                                        : CircleAvatar(
-                                                            maxRadius: 16,
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () async {
-                                                                showSearchWarningAlert(
-                                                                    context,
-                                                                    index,
-                                                                    0);
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.remove,
-                                                                size: 18,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                    const SizedBox(
-                                                      height: 6,
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    itemCount: _searchResult.isEmpty
-                                        ? 0
-                                        : _searchResult.length,
-                                    shrinkWrap: true,
-                                    physics: const ClampingScrollPhysics(),
-                                  )
-                                : ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () async {
-                                          if (!items[index].selected) {
-                                            showEditProductDialog(
-                                                context, items[index], index);
-                                          }
-                                        },
-                                        child: Card(
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 6),
-                                          child: ListTile(
-                                            // contentPadding: const EdgeInsets.all(12),
-                                            selected: items[index].selected,
-                                            selectedTileColor: Colors.blue,
-                                            selectedColor: Colors.white,
-                                            title: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Visibility(
-                                                  visible: false,
-                                                  child: Row(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        maxRadius: 16,
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        child: GestureDetector(
-                                                          onTap: () async {
-                                                            setState(() {
-                                                              editing = true;
-                                                              visibility =
-                                                                  false;
-                                                              editingId =
-                                                                  items[index]
-                                                                      .id;
-                                                            });
-                                                            priceC.text =
-                                                                "${items[index].price}";
-                                                            productNameC
-                                                                .text = items[
-                                                                    index]
-                                                                .productName;
-                                                            skuC.text =
-                                                                items[index]
-                                                                    .sku;
-                                                          },
-                                                          child: const Icon(
-                                                            Icons.edit,
-                                                            size: 18,
-                                                            color: Colors.white,
                                                           ),
                                                         ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      CircleAvatar(
-                                                        maxRadius: 16,
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        child: GestureDetector(
-                                                          onTap: () async {
-                                                            AlertDialog alert =
-                                                                AlertDialog(
-                                                              title: const Text(
-                                                                  'Are you sure?'),
-                                                              content: const Text(
-                                                                  'By clicking this button, this product will be deleted'),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  child:
-                                                                      const Text(
-                                                                          'Yes'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                    deleteProduct(
+                                                        const SizedBox(
+                                                          height: 6,
+                                                        ),
+                                                        !_searchResult[index]
+                                                                .selected
+                                                            ? CircleAvatar(
+                                                                maxRadius: 16,
+                                                                backgroundColor:
+                                                                    Colors.white,
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () async {
+                                                                    showEditProductDialog(
+                                                                        context,
+                                                                        _searchResult[
+                                                                            index],
                                                                         index);
                                                                   },
-                                                                ),
-                                                                TextButton(
-                                                                  child: const Text(
-                                                                      'Cancel'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            );
-                                                            showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContextcontext) {
-                                                                return alert;
-                                                              },
-                                                            );
-                                                          },
-                                                          child: const Icon(
-                                                            Icons.delete,
-                                                            size: 18,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Visibility(
-                                                        visible: false,
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      12.0,
-                                                                  vertical: 2),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: [
-                                                              Text(
-                                                                "Qty: ${items[index].quantity}",
-                                                                style: const TextStyle(
+                                                                  child: const Icon(
+                                                                    Icons.add,
+                                                                    size: 18,
                                                                     color: Colors
-                                                                        .white),
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : CircleAvatar(
+                                                                maxRadius: 16,
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () async {
+                                                                    showSearchWarningAlert(
+                                                                        context,
+                                                                        index,
+                                                                        0);
+                                                                  },
+                                                                  child: const Icon(
+                                                                    Icons.remove,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
                                                               ),
-                                                              items[index].discount !=
-                                                                      0
-                                                                  ? const VerticalDivider()
-                                                                  : const SizedBox(),
-                                                              items[index].discount !=
-                                                                      0
-                                                                  ? Text(
-                                                                      "Dis: ${items[index].discount}",
-                                                                      style: const TextStyle(
-                                                                          color:
-                                                                              Colors.white),
-                                                                    )
-                                                                  : const SizedBox(),
-                                                            ],
-                                                          ),
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            3)),
-                                                            color: Colors.amber,
-                                                          ),
+                                                        const SizedBox(
+                                                          height: 6,
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              items[index]
-                                                                      .productName +
-                                                                  "        " +
-                                                                  items[index]
-                                                                      .sku +
-                                                                  '(${items[index].balance})',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ),
-                                                          // SizedBox(width: 12),
-                                                          // Text(
-                                                          //     "Balance: ${items[index].balance}"),
-                                                        ],
-                                                      ),
-                                                      // const SizedBox(
-                                                      //   height: 12,
-                                                      // ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                'Price:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${items[index].price}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            13),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                'Disc:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${items[index].discount}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            13),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                'Bns:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${items[index].bonus}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            13),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                'Qty:',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        13),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          12.0,
-                                                                      vertical:
-                                                                          4),
-                                                                  child: Text(
-                                                                    '${items[index].quantity}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            13),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Column(
-                                                  children: [
-                                                    const SizedBox(height: 6),
-                                                    Visibility(
-                                                      visible: false,
-                                                      child: CircleAvatar(
-                                                        maxRadius: 16,
-                                                        backgroundColor:
-                                                            Colors.orangeAccent,
-                                                        child: GestureDetector(
-                                                          onTap: () async {
-                                                            showEditProductDialog(
-                                                                context,
-                                                                items[index],
-                                                                index);
-                                                          },
-                                                          child: const Icon(
-                                                            Icons.tune,
-                                                            size: 18,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 6),
-                                                    !items
-                                                            .elementAt(index)
-                                                            .selected
-                                                        ? CircleAvatar(
-                                                            maxRadius: 16,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () async {
-                                                                showEditProductDialog(
-                                                                    context,
-                                                                    items[
-                                                                        index],
-                                                                    index);
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.add,
-                                                                size: 18,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : CircleAvatar(
-                                                            maxRadius: 16,
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () async {
-                                                                showWarningAlert(
-                                                                    context,
-                                                                    index,
-                                                                    0);
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.remove,
-                                                                size: 18,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                    const SizedBox(height: 6),
+                                                      ],
+                                                    )
                                                   ],
-                                                )
-                                              ],
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    itemCount: items.length,
-                                    shrinkWrap: true,
-                                    physics: const ClampingScrollPhysics(),
-                                  ),
+                                          );
+                                        },
+                                        itemCount: _searchResult.isEmpty
+                                            ? 0
+                                            : _searchResult.length,
+                                        shrinkWrap: true,
+                                        physics: const ClampingScrollPhysics(),
+                                      ),
+                                  ],
+                                )
+                                // : ListView.builder(
+                                //     itemBuilder: (context, index) {
+                                //       return InkWell(
+                                //         onTap: () async {
+                                //           if (!items[index].selected) {
+                                //             showEditProductDialog(
+                                //                 context, items[index], index);
+                                //           }
+                                //         },
+                                //         child: Card(
+                                //           margin: const EdgeInsets.symmetric(
+                                //               vertical: 3, horizontal: 6),
+                                //           child: ListTile(
+                                //             // contentPadding: const EdgeInsets.all(12),
+                                //             selected: items[index].selected,
+                                //             selectedTileColor: Colors.blue,
+                                //             selectedColor: Colors.white,
+                                //             title: Row(
+                                //               mainAxisSize: MainAxisSize.max,
+                                //               mainAxisAlignment:
+                                //                   MainAxisAlignment.start,
+                                //               crossAxisAlignment:
+                                //                   CrossAxisAlignment.center,
+                                //               children: [
+                                //                 Visibility(
+                                //                   visible: false,
+                                //                   child: Row(
+                                //                     children: [
+                                //                       CircleAvatar(
+                                //                         maxRadius: 16,
+                                //                         backgroundColor:
+                                //                             Colors.blue,
+                                //                         child: GestureDetector(
+                                //                           onTap: () async {
+                                //                             setState(() {
+                                //                               editing = true;
+                                //                               visibility =
+                                //                                   false;
+                                //                               editingId =
+                                //                                   items[index]
+                                //                                       .id;
+                                //                             });
+                                //                             priceC.text =
+                                //                                 "${items[index].price}";
+                                //                             productNameC
+                                //                                 .text = items[
+                                //                                     index]
+                                //                                 .productName;
+                                //                             skuC.text =
+                                //                                 items[index]
+                                //                                     .sku;
+                                //                           },
+                                //                           child: const Icon(
+                                //                             Icons.edit,
+                                //                             size: 18,
+                                //                             color: Colors.white,
+                                //                           ),
+                                //                         ),
+                                //                       ),
+                                //                       const SizedBox(
+                                //                         width: 10,
+                                //                       ),
+                                //                       CircleAvatar(
+                                //                         maxRadius: 16,
+                                //                         backgroundColor:
+                                //                             Colors.red,
+                                //                         child: GestureDetector(
+                                //                           onTap: () async {
+                                //                             AlertDialog alert =
+                                //                                 AlertDialog(
+                                //                               title: const Text(
+                                //                                   'Are you sure?'),
+                                //                               content: const Text(
+                                //                                   'By clicking this button, this product will be deleted'),
+                                //                               actions: <Widget>[
+                                //                                 TextButton(
+                                //                                   child:
+                                //                                       const Text(
+                                //                                           'Yes'),
+                                //                                   onPressed:
+                                //                                       () {
+                                //                                     Navigator.of(
+                                //                                             context)
+                                //                                         .pop();
+                                //                                     deleteProduct(
+                                //                                         index);
+                                //                                   },
+                                //                                 ),
+                                //                                 TextButton(
+                                //                                   child: const Text(
+                                //                                       'Cancel'),
+                                //                                   onPressed:
+                                //                                       () {
+                                //                                     Navigator.of(
+                                //                                             context)
+                                //                                         .pop();
+                                //                                   },
+                                //                                 ),
+                                //                               ],
+                                //                             );
+                                //                             showDialog(
+                                //                               context: context,
+                                //                               builder:
+                                //                                   (BuildContextcontext) {
+                                //                                 return alert;
+                                //                               },
+                                //                             );
+                                //                           },
+                                //                           child: const Icon(
+                                //                             Icons.delete,
+                                //                             size: 18,
+                                //                             color: Colors.white,
+                                //                           ),
+                                //                         ),
+                                //                       ),
+                                //                     ],
+                                //                   ),
+                                //                 ),
+                                //                 const SizedBox(width: 10),
+                                //                 Expanded(
+                                //                   child: Column(
+                                //                     mainAxisAlignment:
+                                //                         MainAxisAlignment
+                                //                             .spaceBetween,
+                                //                     crossAxisAlignment:
+                                //                         CrossAxisAlignment
+                                //                             .start,
+                                //                     children: [
+                                //                       Visibility(
+                                //                         visible: false,
+                                //                         child: Container(
+                                //                           padding:
+                                //                               const EdgeInsets
+                                //                                       .symmetric(
+                                //                                   horizontal:
+                                //                                       12.0,
+                                //                                   vertical: 2),
+                                //                           child: Row(
+                                //                             mainAxisSize:
+                                //                                 MainAxisSize
+                                //                                     .min,
+                                //                             children: [
+                                //                               Text(
+                                //                                 "Qty: ${items[index].quantity}",
+                                //                                 style: const TextStyle(
+                                //                                     color: Colors
+                                //                                         .white),
+                                //                               ),
+                                //                               items[index].discount !=
+                                //                                       0
+                                //                                   ? const VerticalDivider()
+                                //                                   : const SizedBox(),
+                                //                               items[index].discount !=
+                                //                                       0
+                                //                                   ? Text(
+                                //                                       "Dis: ${items[index].discount}",
+                                //                                       style: const TextStyle(
+                                //                                           color:
+                                //                                               Colors.white),
+                                //                                     )
+                                //                                   : const SizedBox(),
+                                //                             ],
+                                //                           ),
+                                //                           decoration:
+                                //                               const BoxDecoration(
+                                //                             borderRadius:
+                                //                                 BorderRadius
+                                //                                     .all(Radius
+                                //                                         .circular(
+                                //                                             3)),
+                                //                             color: Colors.amber,
+                                //                           ),
+                                //                         ),
+                                //                       ),
+                                //                       Row(
+                                //                         mainAxisAlignment:
+                                //                             MainAxisAlignment
+                                //                                 .center,
+                                //                         children: [
+                                //                           Expanded(
+                                //                             flex: 1,
+                                //                             child: Container(),
+                                //                           ),
+                                //                         ],
+                                //                       ),
+                                //                       Row(
+                                //                         children: [
+                                //                           Expanded(
+                                //                             child: Text(
+                                //                               items[index]
+                                //                                       .productName +
+                                //                                   "        " +
+                                //                                   items[index]
+                                //                                       .sku +
+                                //                                   '(${items[index].balance})',
+                                //                               style: TextStyle(
+                                //                                   fontSize: 13,
+                                //                                   fontWeight:
+                                //                                       FontWeight
+                                //                                           .bold),
+                                //                             ),
+                                //                           ),
+                                //                           // SizedBox(width: 12),
+                                //                           // Text(
+                                //                           //     "Balance: ${items[index].balance}"),
+                                //                         ],
+                                //                       ),
+                                //                       // const SizedBox(
+                                //                       //   height: 12,
+                                //                       // ),
+                                //                       Row(
+                                //                         mainAxisAlignment:
+                                //                             MainAxisAlignment
+                                //                                 .spaceBetween,
+                                //                         crossAxisAlignment:
+                                //                             CrossAxisAlignment
+                                //                                 .start,
+                                //                         children: [
+                                //                           Row(
+                                //                             children: [
+                                //                               const Text(
+                                //                                 'Price:',
+                                //                                 style: TextStyle(
+                                //                                     fontSize:
+                                //                                         13),
+                                //                               ),
+                                //                               Container(
+                                //                                 child: Padding(
+                                //                                   padding: const EdgeInsets
+                                //                                           .symmetric(
+                                //                                       horizontal:
+                                //                                           12.0,
+                                //                                       vertical:
+                                //                                           4),
+                                //                                   child: Text(
+                                //                                     '${items[index].price}',
+                                //                                     style: TextStyle(
+                                //                                         fontSize:
+                                //                                             13),
+                                //                                   ),
+                                //                                 ),
+                                //                               ),
+                                //                             ],
+                                //                           ),
+                                //                           Row(
+                                //                             children: [
+                                //                               const Text(
+                                //                                 'Disc:',
+                                //                                 style: TextStyle(
+                                //                                     fontSize:
+                                //                                         13),
+                                //                               ),
+                                //                               Container(
+                                //                                 child: Padding(
+                                //                                   padding: const EdgeInsets
+                                //                                           .symmetric(
+                                //                                       horizontal:
+                                //                                           12.0,
+                                //                                       vertical:
+                                //                                           4),
+                                //                                   child: Text(
+                                //                                     '${items[index].discount}',
+                                //                                     style: TextStyle(
+                                //                                         fontSize:
+                                //                                             13),
+                                //                                   ),
+                                //                                 ),
+                                //                               ),
+                                //                             ],
+                                //                           ),
+                                //                           Row(
+                                //                             children: [
+                                //                               const Text(
+                                //                                 'Bns:',
+                                //                                 style: TextStyle(
+                                //                                     fontSize:
+                                //                                         13),
+                                //                               ),
+                                //                               Container(
+                                //                                 child: Padding(
+                                //                                   padding: const EdgeInsets
+                                //                                           .symmetric(
+                                //                                       horizontal:
+                                //                                           12.0,
+                                //                                       vertical:
+                                //                                           4),
+                                //                                   child: Text(
+                                //                                     '${items[index].bonus}',
+                                //                                     style: TextStyle(
+                                //                                         fontSize:
+                                //                                             13),
+                                //                                   ),
+                                //                                 ),
+                                //                               ),
+                                //                             ],
+                                //                           ),
+                                //                           Row(
+                                //                             children: [
+                                //                               const Text(
+                                //                                 'Qty:',
+                                //                                 style: TextStyle(
+                                //                                     fontSize:
+                                //                                         13),
+                                //                               ),
+                                //                               Container(
+                                //                                 child: Padding(
+                                //                                   padding: const EdgeInsets
+                                //                                           .symmetric(
+                                //                                       horizontal:
+                                //                                           12.0,
+                                //                                       vertical:
+                                //                                           4),
+                                //                                   child: Text(
+                                //                                     '${items[index].quantity}',
+                                //                                     style: TextStyle(
+                                //                                         fontSize:
+                                //                                             13),
+                                //                                   ),
+                                //                                 ),
+                                //                               ),
+                                //                             ],
+                                //                           ),
+                                //                         ],
+                                //                       ),
+                                //                     ],
+                                //                   ),
+                                //                 ),
+                                //                 const SizedBox(width: 10),
+                                //                 Column(
+                                //                   children: [
+                                //                     const SizedBox(height: 6),
+                                //                     Visibility(
+                                //                       visible: false,
+                                //                       child: CircleAvatar(
+                                //                         maxRadius: 16,
+                                //                         backgroundColor:
+                                //                             Colors.orangeAccent,
+                                //                         child: GestureDetector(
+                                //                           onTap: () async {
+                                //                             showEditProductDialog(
+                                //                                 context,
+                                //                                 items[index],
+                                //                                 index);
+                                //                           },
+                                //                           child: const Icon(
+                                //                             Icons.tune,
+                                //                             size: 18,
+                                //                             color: Colors.white,
+                                //                           ),
+                                //                         ),
+                                //                       ),
+                                //                     ),
+                                //                     const SizedBox(height: 6),
+                                //                     !items
+                                //                             .elementAt(index)
+                                //                             .selected
+                                //                         ? CircleAvatar(
+                                //                             maxRadius: 16,
+                                //                             backgroundColor:
+                                //                                 Colors.white,
+                                //                             child:
+                                //                                 GestureDetector(
+                                //                               onTap: () async {
+                                //                                 showEditProductDialog(
+                                //                                     context,
+                                //                                     items[
+                                //                                         index],
+                                //                                     index);
+                                //                               },
+                                //                               child: const Icon(
+                                //                                 Icons.add,
+                                //                                 size: 18,
+                                //                                 color: Colors
+                                //                                     .white,
+                                //                               ),
+                                //                             ),
+                                //                           )
+                                //                         : CircleAvatar(
+                                //                             maxRadius: 16,
+                                //                             backgroundColor:
+                                //                                 Colors.red,
+                                //                             child:
+                                //                                 GestureDetector(
+                                //                               onTap: () async {
+                                //                                 showWarningAlert(
+                                //                                     context,
+                                //                                     index,
+                                //                                     0);
+                                //                               },
+                                //                               child: const Icon(
+                                //                                 Icons.remove,
+                                //                                 size: 18,
+                                //                                 color: Colors
+                                //                                     .white,
+                                //                               ),
+                                //                             ),
+                                //                           ),
+                                //                     const SizedBox(height: 6),
+                                //                   ],
+                                //                 )
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       );
+                                //     },
+                                //     itemCount: items.length,
+                                //     shrinkWrap: true,
+                                //     physics: const ClampingScrollPhysics(),
+                                //   ),
+
+                          : Container(),
                             const SizedBox(
                               height: 12,
                             ),
